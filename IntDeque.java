@@ -151,7 +151,7 @@ public class IntDeque {
             int menu = sc.nextInt();
             if (menu == 0) break;
 
-            int x = 0, idx;
+            int x = 0;
 
             switch (menu) {
                 case 1:
