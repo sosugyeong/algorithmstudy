@@ -1,3 +1,4 @@
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class BinTreeTester {
@@ -37,6 +38,11 @@ public class BinTreeTester {
         REMOVE("삭제"),
         SEARCH("검색"),
         PRINT("출력"),
+        PRINTR("내림차순 출력"),
+        MINKEY("가장 작은 키 값"),
+        MINDATA("가장 작은 키를 갖는 데이터"),
+        MAXKEY("가장 큰 키 값"),
+        MAXDATA("가장 큰 키를 갖는 데이터"),
         TERMINATE("종료");
         
         private final String message;
@@ -77,7 +83,15 @@ public class BinTreeTester {
         Data data; //추가용 데이터 참조
         Data ptr; //검색용 데이터 참조
         Data temp = new Data(); //입력용 데이터
-        BinTree<Integer, Data> tree = new BinTree<Integer, Data>();
+
+        class IntegerDecComparator implements Comparator<Integer>{
+            public int compare(Integer n1, Integer n2){
+                return (n1>n2)? -1:(n1<n2) ? 1:0;
+            }
+        }
+        final IntegerDecComparator INT_DEC_COMP = new IntegerDecComparator();
+
+        BinTree<Integer, Data> tree = new BinTree<Integer, Data>(INT_DEC_COMP);
 
         do{
             switch (menu = SelectMenu()) {
@@ -104,6 +118,46 @@ public class BinTreeTester {
 
                 case PRINT:
                     tree.print();
+                    break;
+
+                case PRINTR:
+                    tree.printR();
+                    break;
+
+                case MINKEY:
+                    Integer key = tree.getMinKey();
+                    if (key != null) {
+                        System.out.println("가장 작은 키 값은 "+key+"입니다.");
+                    } else {
+                        System.out.println("데이터가 없습니다.");
+                    }
+                    break;
+
+                case MINDATA:
+                    ptr = tree.getDataWithMinKey();
+                    if (ptr != null) {
+                        System.out.println("가장 작은 키값을 갖는 데이터는 "+ptr+"입니다.");
+                    } else {
+                        System.out.println("데이터가 없습니다.");
+                    }
+                    break;
+
+                case MAXKEY:
+                    Integer key1 = tree.getMaxKey();
+                    if (key1 != null) {
+                        System.out.println("가장 큰 키 값은 "+key1+"입니다.");
+                    } else {
+                        System.out.println("데이터가 없습니다.");
+                    }
+                    break;
+
+                case MAXDATA:
+                    ptr = tree.getDataWithMaxKey();
+                    if (ptr != null) {
+                        System.out.println("가장 큰 키값을 갖는 데이터는 "+ptr+"입니다.");
+                    } else {
+                        System.out.println("데이터가 없습니다.");
+                    }
                     break;
             }
         } while(menu != Menu.TERMINATE);

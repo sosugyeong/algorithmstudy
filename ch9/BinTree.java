@@ -151,18 +151,71 @@ public class BinTree<K, V> {
         return true;
     }
 
-    //--- node를 루트로 하는 서브트리의 노드를 키값의 오름차순으로 표시 ---//
-    private void printSubTree(Node node) {
+    private void printSubTree(Node node) { //노드를 오름차순으로 출력
         if (node != null) {
             printSubTree(node.left);                            // 왼쪽 서브트리를 키값의 오름차순으로 표시
-            System.out.println(node.key + " " + node.data);     // node를 표시
+            System.out.println(node.key + " " + node.data);
             printSubTree(node.right);                           // 오른쪽 서브트리를 키값의 오름차순으로 표시
         }
     }
-
-    //--- 전체 노드를 키값의 오름차순으로 표시 ---//
     public void print() {
         printSubTree(root);
     }
 
+    private void printReverse(Node node){ //노드를 내림차순으로 출력
+        if (node != null) {
+            printReverse(node.right);
+            System.out.println(node.key + " " + node.data);
+            printReverse(node.left);
+        }
+    }
+    public void printR(){
+        printReverse(root);
+    }
+
+    private Node<K,V> getMaxNode(){ //가장 큰 키값을 갖는 노드 반환
+        if (root == null) {
+            return null;
+        } else {
+            Node<K,V> p = root;
+
+            while (p.right != null) {
+                p = p.right;
+            }
+            return p;
+        }
+    }
+
+    private Node<K,V> getMinNode(){
+        if (root == null) {
+            return null;
+        } else {
+            Node<K,V> p = root;
+
+            while (p.left != null) {
+                p = p.left;
+            }
+            return p;
+        }
+    }
+
+    public K getMinKey(){
+        Node<K,V> minNode =  getMinNode();
+        return (minNode == null) ? null : minNode.getKey();
+    }
+
+    public V getDataWithMinKey(){
+        Node<K,V> minNode = getMinNode();
+        return (minNode == null) ? null : minNode.getValue();
+    }
+
+    public K getMaxKey(){
+        Node<K,V> maxNode =  getMaxNode();
+        return (maxNode == null) ? null : maxNode.getKey();
+    }
+
+    public V getDataWithMaxKey(){
+        Node<K,V> maxNode = getMaxNode();
+        return (maxNode == null) ? null : maxNode.getValue();
+    }
 }
